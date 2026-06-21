@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+AGENT.md
+STRUCTURE_PROJECT.md
+TODO.md
+TASK.md
+UI_DESIGN.md
