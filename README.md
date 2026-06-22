@@ -28,15 +28,15 @@
 
 ## 🛠 Công nghệ sử dụng
 
-| Công nghệ      | Mục đích                  |
-| --------------- | ------------------------- |
-| React 19        | UI framework              |
-| Vite 8          | Build tool / Dev server   |
-| Tailwind CSS 4  | Styling + Design System "Luminous Ledger" |
-| Material Symbols| Icons (thay thế cho lucide-react) |
-| date-fns        | Xử lý ngày tháng         |
-| uuid            | Tạo unique ID             |
-| localStorage    | Lưu trữ dữ liệu          |
+| Công nghệ        | Mục đích                                  |
+| ---------------- | ----------------------------------------- |
+| React 19         | UI framework                              |
+| Vite 8           | Build tool / Dev server                   |
+| Tailwind CSS 4   | Styling + Design System "Luminous Ledger" |
+| Material Symbols | Icons (thay thế cho lucide-react)         |
+| date-fns         | Xử lý ngày tháng                          |
+| uuid             | Tạo unique ID                             |
+| localStorage     | Lưu trữ dữ liệu                           |
 
 > ⚠️ **Không sử dụng** UI library (Ant Design, MUI, Bootstrap). Giao diện được tích hợp từ thiết kế chuyên nghiệp trên nền tảng Stitch.
 
@@ -91,21 +91,3 @@ Mở trình duyệt tại `http://localhost:5173`
 npm run build
 npm run preview
 ```
-
----
-
-## 📋 Tài liệu dự án
-
-| File                                              | Nội dung                       |
-| ------------------------------------------------- | ------------------------------ |
-| [`TASK.md`](./TASK.md)                            | Yêu cầu chức năng chi tiết    |
-| [`AGENT.md`](./AGENT.md)                          | Quy tắc code & conventions    |
-| [`TODO.md`](./TODO.md)                            | Thứ tự triển khai (checklist) |
-| [`STRUCTURE_PROJECT.md`](./STRUCTURE_PROJECT.md)  | Cấu trúc folder & files       |
-| [`UI_DESIGN.md`](./UI_DESIGN.md)                  | Thiết kế giao diện            |
-
----
-
-## 📝 License
-
-Bài tập học tập — React + Vite.
