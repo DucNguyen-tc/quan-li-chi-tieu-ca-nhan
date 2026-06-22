@@ -1,7 +1,11 @@
-import { useState, useMemo } from 'react';
-import { useApp } from '../../context/AppContext';
-import MaterialIcon from '../common/MaterialIcon';
-import { formatCurrency, formatSignedCurrency, formatDateShort } from '../../utils/formatters';
+import { useState, useMemo } from "react";
+import { useApp } from "../../context/AppContext";
+import MaterialIcon from "../common/MaterialIcon";
+import {
+  formatCurrency,
+  formatSignedCurrency,
+  formatDateShort,
+} from "../../utils/formatters";
 
 /**
  * DashboardPage — trang tổng quan tài chính
@@ -16,18 +20,21 @@ export default function DashboardPage() {
     setCurrentPage,
   } = useApp();
 
-  const [timeFilter, setTimeFilter] = useState('all'); // 'month' | 'year' | 'all'
+  const [timeFilter, setTimeFilter] = useState("all"); // 'month' | 'year' | 'all'
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   const filteredTransactions = useMemo(() => {
-    return transactions.filter(tx => {
-      if (timeFilter === 'all') return true;
+    return transactions.filter((tx) => {
+      if (timeFilter === "all") return true;
       const txDate = new Date(tx.date);
-      if (timeFilter === 'month') {
-        return txDate.getMonth() === selectedMonth && txDate.getFullYear() === selectedYear;
+      if (timeFilter === "month") {
+        return (
+          txDate.getMonth() === selectedMonth &&
+          txDate.getFullYear() === selectedYear
+        );
       }
-      if (timeFilter === 'year') {
+      if (timeFilter === "year") {
         return txDate.getFullYear() === selectedYear;
       }
       return true;
@@ -36,13 +43,13 @@ export default function DashboardPage() {
 
   const totalIncome = useMemo(() => {
     return filteredTransactions
-      .filter((tx) => tx.type === 'income')
+      .filter((tx) => tx.type === "income")
       .reduce((sum, tx) => sum + Number(tx.amount), 0);
   }, [filteredTransactions]);
 
   const totalExpense = useMemo(() => {
     return filteredTransactions
-      .filter((tx) => tx.type === 'expense')
+      .filter((tx) => tx.type === "expense")
       .reduce((sum, tx) => sum + Number(tx.amount), 0);
   }, [filteredTransactions]);
 
@@ -53,14 +60,17 @@ export default function DashboardPage() {
   const expenseByCategory = categories
     .map((cat) => {
       const total = filteredTransactions
-        .filter((tx) => tx.type === 'expense' && tx.categoryId === cat.id)
+        .filter((tx) => tx.type === "expense" && tx.categoryId === cat.id)
         .reduce((sum, tx) => sum + Number(tx.amount), 0);
       return { ...cat, total };
     })
     .filter((cat) => cat.total > 0)
     .sort((a, b) => b.total - a.total);
 
-  const totalExpenseForChart = expenseByCategory.reduce((sum, c) => sum + c.total, 0);
+  const totalExpenseForChart = expenseByCategory.reduce(
+    (sum, c) => sum + c.total,
+    0,
+  );
 
   return (
     <div className="space-y-[var(--spacing-xl)] animate-fade-in pt-6">
@@ -71,11 +81,11 @@ export default function DashboardPage() {
             Tổng quan tài chính
           </h1>
           <p className="text-base text-on-surface-variant mt-1">
-            Chào buổi sáng, Anh/Chị!
+            Chào, Anh/Chị!
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {timeFilter === 'month' && (
+          {timeFilter === "month" && (
             <div className="relative min-w-[110px]">
               <select
                 value={selectedMonth}
@@ -83,14 +93,19 @@ export default function DashboardPage() {
                 className="w-full appearance-none bg-surface border border-outline-variant rounded-lg pl-4 pr-8 py-2 text-sm text-on-surface focus:border-primary focus:ring-1 focus:ring-primary outline-none cursor-pointer shadow-sm"
               >
                 {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i} value={i}>Tháng {i + 1}</option>
+                  <option key={i} value={i}>
+                    Tháng {i + 1}
+                  </option>
                 ))}
               </select>
-              <MaterialIcon name="expand_more" className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+              <MaterialIcon
+                name="expand_more"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+              />
             </div>
           )}
 
-          {(timeFilter === 'month' || timeFilter === 'year') && (
+          {(timeFilter === "month" || timeFilter === "year") && (
             <div className="relative min-w-[100px]">
               <select
                 value={selectedYear}
@@ -99,10 +114,17 @@ export default function DashboardPage() {
               >
                 {Array.from({ length: 10 }, (_, i) => {
                   const y = new Date().getFullYear() - 5 + i;
-                  return <option key={y} value={y}>Năm {y}</option>;
+                  return (
+                    <option key={y} value={y}>
+                      Năm {y}
+                    </option>
+                  );
                 })}
               </select>
-              <MaterialIcon name="expand_more" className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+              <MaterialIcon
+                name="expand_more"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+              />
             </div>
           )}
 
@@ -116,7 +138,10 @@ export default function DashboardPage() {
               <option value="year">Theo năm</option>
               <option value="all">Tất cả</option>
             </select>
-            <MaterialIcon name="expand_more" className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none" />
+            <MaterialIcon
+              name="expand_more"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none"
+            />
           </div>
         </div>
       </div>
@@ -126,7 +151,10 @@ export default function DashboardPage() {
         <div className="flex flex-col gap-[var(--spacing-sm)] w-full md:w-auto">
           <div className="flex items-center gap-[var(--spacing-sm)]">
             <div className="bg-white/20 p-2 rounded-full flex items-center justify-center hover:scale-105 transition-transform">
-              <MaterialIcon name="account_balance_wallet" className="text-3xl" />
+              <MaterialIcon
+                name="account_balance_wallet"
+                className="text-3xl"
+              />
             </div>
             <span className="text-xl font-semibold">Số Dư Hiện Tại</span>
           </div>
@@ -182,7 +210,9 @@ export default function DashboardPage() {
             {transactionCount}
           </div>
           <div className="flex items-center gap-[var(--spacing-xs)] text-sm text-on-surface-variant mt-auto pt-2">
-            <span className="text-on-surface-variant font-medium">Tổng cộng</span>
+            <span className="text-on-surface-variant font-medium">
+              Tổng cộng
+            </span>
           </div>
         </div>
       </section>
@@ -199,33 +229,54 @@ export default function DashboardPage() {
             <div className="flex flex-col items-center justify-center flex-1 gap-[var(--spacing-xl)]">
               {/* SVG Donut */}
               <div className="w-64 h-64 relative flex items-center justify-center">
-                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                  <circle cx="50" cy="50" r="40" fill="transparent" stroke="#f0f0f0" strokeWidth="16" />
-                  {expenseByCategory.reduce((acc, cat, i) => {
-                    const percent = (cat.total / totalExpenseForChart) * 100;
-                    const dashArray = 2 * Math.PI * 40;
-                    const dashOffset = dashArray - (dashArray * percent) / 100;
-                    const prevPercent = acc.prevPercent;
-                    const rotation = (prevPercent / 100) * 360;
-                    acc.elements.push(
-                      <circle
-                        key={cat.id}
-                        cx="50" cy="50" r="40"
-                        fill="transparent"
-                        stroke={cat.color}
-                        strokeWidth="16"
-                        strokeDasharray={dashArray}
-                        strokeDashoffset={dashOffset}
-                        strokeLinecap="round"
-                        transform={`rotate(${rotation} 50 50)`}
-                      />
-                    );
-                    acc.prevPercent += percent;
-                    return acc;
-                  }, { elements: [], prevPercent: 0 }).elements}
+                <svg
+                  className="w-full h-full transform -rotate-90"
+                  viewBox="0 0 100 100"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="40"
+                    fill="transparent"
+                    stroke="#f0f0f0"
+                    strokeWidth="16"
+                  />
+                  {
+                    expenseByCategory.reduce(
+                      (acc, cat, i) => {
+                        const percent =
+                          (cat.total / totalExpenseForChart) * 100;
+                        const dashArray = 2 * Math.PI * 40;
+                        const dashOffset =
+                          dashArray - (dashArray * percent) / 100;
+                        const prevPercent = acc.prevPercent;
+                        const rotation = (prevPercent / 100) * 360;
+                        acc.elements.push(
+                          <circle
+                            key={cat.id}
+                            cx="50"
+                            cy="50"
+                            r="40"
+                            fill="transparent"
+                            stroke={cat.color}
+                            strokeWidth="16"
+                            strokeDasharray={dashArray}
+                            strokeDashoffset={dashOffset}
+                            strokeLinecap="round"
+                            transform={`rotate(${rotation} 50 50)`}
+                          />,
+                        );
+                        acc.prevPercent += percent;
+                        return acc;
+                      },
+                      { elements: [], prevPercent: 0 },
+                    ).elements
+                  }
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-                  <span className="text-xs font-medium text-on-surface-variant">Tổng chi</span>
+                  <span className="text-xs font-medium text-on-surface-variant">
+                    Tổng chi
+                  </span>
                   <span className="text-xl font-semibold text-on-surface mt-1">
                     {totalExpenseForChart >= 1000000
                       ? `${(totalExpenseForChart / 1000000).toFixed(1)}M`
@@ -237,13 +288,24 @@ export default function DashboardPage() {
               {/* Legend */}
               <div className="w-full grid grid-cols-2 gap-[var(--spacing-md)]">
                 {expenseByCategory.map((cat) => (
-                  <div key={cat.id} className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors">
+                  <div
+                    key={cat.id}
+                    className="flex items-center justify-between p-2 rounded-lg hover:bg-surface-container transition-colors"
+                  >
                     <div className="flex items-center gap-[var(--spacing-sm)]">
-                      <span className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }} />
-                      <span className="text-sm text-on-surface">{cat.name}</span>
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: cat.color }}
+                      />
+                      <span className="text-sm text-on-surface">
+                        {cat.name}
+                      </span>
                     </div>
                     <span className="text-xl font-semibold text-on-surface">
-                      {totalExpenseForChart > 0 ? Math.round((cat.total / totalExpenseForChart) * 100) : 0}%
+                      {totalExpenseForChart > 0
+                        ? Math.round((cat.total / totalExpenseForChart) * 100)
+                        : 0}
+                      %
                     </span>
                   </div>
                 ))}
@@ -251,7 +313,10 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-on-surface-variant py-12">
-              <MaterialIcon name="pie_chart" className="text-5xl mb-2 opacity-30" />
+              <MaterialIcon
+                name="pie_chart"
+                className="text-5xl mb-2 opacity-30"
+              />
               <p className="text-sm">Chưa có dữ liệu chi tiêu</p>
             </div>
           )}
@@ -260,9 +325,11 @@ export default function DashboardPage() {
         {/* Recent Transactions */}
         <div className="bg-surface rounded-xl p-[var(--spacing-lg)] border border-outline-variant shadow-sm flex flex-col">
           <div className="flex items-center justify-between mb-[var(--spacing-lg)]">
-            <h2 className="text-2xl font-semibold text-on-surface">Giao dịch gần đây</h2>
+            <h2 className="text-2xl font-semibold text-on-surface">
+              Giao dịch gần đây
+            </h2>
             <button
-              onClick={() => setCurrentPage('transactions')}
+              onClick={() => setCurrentPage("transactions")}
               className="text-sm text-primary hover:underline font-medium"
             >
               Xem tất cả →
@@ -273,27 +340,38 @@ export default function DashboardPage() {
             <div className="flex flex-col gap-3">
               {recentTransactions.map((tx) => {
                 const cat = getCategoryById(tx.categoryId);
-                const isIncome = tx.type === 'income';
+                const isIncome = tx.type === "income";
                 return (
-                  <div key={tx.id} className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low transition-colors">
+                  <div
+                    key={tx.id}
+                    className="flex items-center gap-3 p-2 rounded-lg hover:bg-surface-container-low transition-colors"
+                  >
                     {/* Icon */}
                     <div
                       className="w-10 h-10 rounded-full flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: `${cat?.color || '#6b7280'}20` }}
+                      style={{
+                        backgroundColor: `${cat?.color || "#6b7280"}20`,
+                      }}
                     >
                       <MaterialIcon
-                        name={cat?.icon || 'receipt'}
+                        name={cat?.icon || "receipt"}
                         className="text-lg"
-                        style={{ color: cat?.color || '#6b7280' }}
+                        style={{ color: cat?.color || "#6b7280" }}
                       />
                     </div>
                     {/* Info */}
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-on-surface truncate">{tx.name}</p>
-                      <p className="text-xs text-on-surface-variant">{formatDateShort(tx.date)}</p>
+                      <p className="text-sm font-medium text-on-surface truncate">
+                        {tx.name}
+                      </p>
+                      <p className="text-xs text-on-surface-variant">
+                        {formatDateShort(tx.date)}
+                      </p>
                     </div>
                     {/* Amount */}
-                    <span className={`text-base font-bold whitespace-nowrap ${isIncome ? 'text-primary' : 'text-error'}`}>
+                    <span
+                      className={`text-base font-bold whitespace-nowrap ${isIncome ? "text-primary" : "text-error"}`}
+                    >
                       {formatSignedCurrency(tx.amount, tx.type)}
                     </span>
                   </div>
@@ -302,7 +380,10 @@ export default function DashboardPage() {
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-on-surface-variant py-12">
-              <MaterialIcon name="receipt_long" className="text-5xl mb-2 opacity-30" />
+              <MaterialIcon
+                name="receipt_long"
+                className="text-5xl mb-2 opacity-30"
+              />
               <p className="text-sm">Chưa có giao dịch nào</p>
             </div>
           )}
